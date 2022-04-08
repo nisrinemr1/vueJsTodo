@@ -1,5 +1,7 @@
 # essaitodo
 
+Learning vuejs by doing a todo list 🗒
+
 ## Project setup
 ```
 npm install
