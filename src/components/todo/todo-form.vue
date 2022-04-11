@@ -65,15 +65,13 @@
                 this.$emit('update:close', !this.close)
             },
 
-            add(e) {
+            add() {
                 /*  TO CANCEL THE SUBMIT EVENT  */
-                e.preventDefault()
+                /* e.preventDefault() */
 
                 /*  ALERT WHEN THE INPUT IS EMPTY  */
                 if (!this.todo.name) {
                     alert('Ajouter une tâche')
-                    /* TODO a demanader  */
-                    return
                 }
 
                 /*  TO PUSH THE OBJECT TO THE LIST  */

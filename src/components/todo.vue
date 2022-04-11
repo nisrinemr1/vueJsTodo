@@ -266,7 +266,6 @@ import todoForm from './todo/todo-form.vue'
       &.true{
         height: 600px;
       }
-
       &.false{
         height: 0;
       }
