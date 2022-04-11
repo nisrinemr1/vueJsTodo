@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <simpleTodo msg="Welcome to Your Vue.js App"/>
+    <todo/>
   </div>
 </template>
 
 <script>
-import simpleTodo from './components/simpleTodo.vue'
+import Todo from './components/todo.vue'
 
 export default {
   name: 'App',
   components: {
-    simpleTodo
+    Todo
   }
 }
 </script>
