@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+
     <!-- ******** TITLE ******** -->
     <!-- ******** TITLE ******** -->
     <!-- ******** TITLE ******** -->
@@ -31,21 +32,18 @@
       <div class="task-items">
         <!-- ******** CHECKBOX AND INDEX OF TASK ******** -->
         <div>
-          <input type="checkbox">
+          <input @click="remove(index)" type="checkbox">
           <p>{{index+1}}</p>
         </div>
 
-        <!-- ******** TASK NAME  ******** -->
-        <h3> {{task.name}} </h3>
+        <!-- ******** TASK NAME + ROUTE TO THE TASK  ******** -->
+        <router-link class="task-link" :to="{ name:'TaskName', params:{name:task.name, description:task.description, category:task.category, slug:index+1} }">{{task.name}}</router-link>
 
         <!-- ******** TASK IMPORTANCE  ******** -->
         <p>{{task.category}}</p>
 
-        <!-- ******** DELETE TASK BTN  ******** -->
-        <button @click="remove(index)" class="btn">Supprimer</button>
       </div>
     </div>
-
 
 
     <!-- ******** ADD TASK FORM ******** -->
@@ -57,9 +55,18 @@
     <!-- ******** ADD TASK BTN ******** -->
     <!-- ******** ADD TASK BTN ******** -->
     <!-- ******** ADD TASK BTN ******** -->
-    <button class="show-form-btn " v-else @click="show_form = true">+</button>
+    <button class="show-form-btn " v-else @click="show_form = true">+</button> 
     <!-- <button class="show-form-btn" v-else @click="show_form = true">+</button> -->
 
+
+    <!-- ******** NAV LINKS ******** -->
+    <!-- ******** NAV LINKS ******** -->
+    <!-- ******** NAV LINKS ******** -->
+    <div class="test-link">
+      <router-link class="nav-link" :to="{ name : 'home' }">Home</router-link>
+      <router-link class="nav-link" :to="{ name : 'test' }">Test</router-link>
+      <router-link class="nav-link" :to="'/todo/'+ index">Task</router-link>
+    </div>
 
 
   </div>
@@ -81,15 +88,18 @@ import todoForm from './todo/todo-form.vue'
         /* **** LIST DATA **** */
         list: [{
             name: "Kimbap",
-            category: "urgent"
+            category: "urgent",
+            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
           },
           {
             name: "Bibimbap",
-            category: "important"
+            category: "important",
+            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
           },
           {
             name: "Ttoekbokki",
-            category: "pasimportant"
+            category: "pasimportant",
+            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
           }
         ],
 
@@ -156,7 +166,6 @@ import todoForm from './todo/todo-form.vue'
     /* ****** TITLE ****** */
     /* ****** TITLE ****** */
     .title {
-      padding-top: 50px;
       padding-bottom: 30px;
     }
 
@@ -217,6 +226,17 @@ import todoForm from './todo/todo-form.vue'
       border-radius: 10px;
       padding: 5px;
 
+      .task-link{
+        color: black;
+        font-size: 1.3rem;
+        font-weight: bolder;
+        text-decoration: none;
+      }
+
+      .task-link:hover {
+        color: rgb(254, 212, 220);
+      }
+
       & div {
         width: 50px;
         justify-content: start;
@@ -268,6 +288,27 @@ import todoForm from './todo/todo-form.vue'
       }
       &.false{
         height: 0;
+      }
+    }
+
+     /* ****** NAV ROUT LINK  ****** */
+     /* ****** NAV ROUT LINK  ****** */
+     /* ****** NAV ROUT LINK  ****** */
+    .test-link{
+      position: fixed;
+      padding-bottom: 85px;
+      bottom: 0;
+      color: black;
+
+      .nav-link{
+        color: black;
+        text-decoration: none;
+        border-bottom: 3px solid transparent;
+        transition: border-bottom .2s ease-in-out;
+      }
+
+      .nav-link:hover{
+        border-bottom: 3px solid rgb(253, 197, 207);
       }
     }
   }

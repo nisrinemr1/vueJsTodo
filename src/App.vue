@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <todo/>
+
+    <!-- <router-link :to="{ name:'home' }">Home</router-link>
+    <router-link :to="{ name:'test' }">Test</router-link> -->
+
+    <!-- to show the home page -->
+    <router-view></router-view>
+
   </div>
 </template>
 
