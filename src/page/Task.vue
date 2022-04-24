@@ -46,9 +46,9 @@ export default {
 
     data(){
         return{
-            name: this.$route.params.name,
-            category: this.$route.params.category,
-            description: this.$route.params.description
+            name: this.$route.params.task.name,
+            category: this.$route.params.task.category,
+            description: this.$route.params.task.description
         }
     }
 }

@@ -37,7 +37,7 @@
         </div>
 
         <!-- ******** TASK NAME + ROUTE TO THE TASK  ******** -->
-        <router-link class="task-link" :to="{ name:'TaskName', params:{name:task.name, description:task.description, category:task.category, slug:index+1} }">{{task.name}}</router-link>
+        <router-link class="task-link" :to="{ name:'TaskName', params:{task: task , slug:index+1} }">{{task.name}}</router-link>
 
         <!-- ******** TASK IMPORTANCE  ******** -->
         <p>{{task.category}}</p>
@@ -49,7 +49,7 @@
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
-    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" :newTask.sync="list" :list="list"/>
+    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" @add="test"/>
 
 
     <!-- ******** ADD TASK BTN ******** -->
@@ -126,6 +126,10 @@ import todoForm from './todo/todo-form.vue'
       /*  TO SHOW ONLY THE SPECIFIC CATEGORY CLICKED BY THE USER  */
       changeCategory(value){
         this.show_category = value
+      },
+
+      test(newTodo){
+        this.list.push(newTodo)
       }
     },
 
@@ -275,6 +279,7 @@ import todoForm from './todo/todo-form.vue'
       background-color: rgba(255, 255, 255, 0.845);
       bottom: 0;
       right: 0;
+      z-index: 10;
     }
 
 
@@ -283,6 +288,7 @@ import todoForm from './todo/todo-form.vue'
     /* ****** FORM ****** */
     .form-appears{
       transition: all .7s ease-in-out;
+      z-index: 10;
       &.true{
         height: 600px;
       }

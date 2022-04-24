@@ -12,11 +12,11 @@
                 <label> Ajout de tâche:</label>
 
                 <!-- ******** INPUT TASK ******** -->
-                <input v-model="todo.name" type="text">
+                <input v-model="name" type="text">
 
 
                 <!-- ******** SELECT CATEGORY ******** -->
-                <select v-model="todo.category">
+                <select v-model="category">
 
                     <!-- ******** OPTION CATEGORY OF IMPORTANCE ******** -->
                     <option value="urgent">Urgent</option>
@@ -38,7 +38,6 @@
         name: "todo-form",
         props: {
             close: Boolean,
-            list: Array
         },
 
         data() {
@@ -47,10 +46,8 @@
                 hide: "",
 
                 /* **** TODO OBJECT **** */
-                todo: {
                     name: "",
                     category: ""
-                },
             }
         },
 
@@ -65,30 +62,17 @@
                 this.$emit('update:close', !this.close)
             },
 
-            add() {
-                /*  TO CANCEL THE SUBMIT EVENT  */
-                /* e.preventDefault() */
+            add(){
 
-                /*  ALERT WHEN THE INPUT IS EMPTY  */
-                if (!this.todo.name) {
+                if (!this.name && !this.category) {
                     alert('Ajouter une tâche')
                 }
 
-                /*  TO PUSH THE OBJECT TO THE LIST  */
-                this.list.push({
-                    name: this.todo.name,
-                    category: this.todo.category
-                })
+                this.$emit('add', {name: this.name, category: this.category})
 
-                /* TO SEND THE LIST UPDATE TO THE PARENT */
-                this.$emit('listUpdate', {
-                    ...this.list
-                })
-
-                /* TO CLEAR THE FORM */
-                this.todo.name = ''
-                this.todo.category = ''
-            },
+                /* this.todo.name = ''
+                this.todo.category = '' */
+                }
         }
     }
 </script>

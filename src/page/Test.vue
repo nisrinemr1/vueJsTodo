@@ -1,6 +1,6 @@
 <template>
     <div class="test">
-        <h1>I'm a test page :D</h1>
+        <h1>I'm a test page ☺️</h1>
 
 
         <div>
