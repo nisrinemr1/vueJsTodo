@@ -208,6 +208,7 @@ import todoForm from './todo/todo-form.vue'
           box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
           border: none;
           padding: 10px 10px 10px 10px;
+          color: black;
         }
 
         button:hover {
@@ -277,6 +278,7 @@ import todoForm from './todo/todo-form.vue'
       font-size: 2rem;
       border: none;
       background-color: rgba(255, 255, 255, 0.845);
+      color: black;
       bottom: 0;
       right: 0;
       z-index: 10;

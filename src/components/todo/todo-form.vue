@@ -98,6 +98,7 @@
             border: none;
             font-size: 1.1rem;
             background-color: white;
+            color: black;
         }
 
         form {
@@ -136,6 +137,7 @@
                 padding-left: 10px;
                 padding-right: 10px;
                 background-color: rgb(253, 197, 207);
+                color: black;
                 border: none;
                 border-radius: 20px;
                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

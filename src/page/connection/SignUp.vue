@@ -13,20 +13,26 @@
             <div class="sing-in">
                 <h1>S'inscrire</h1>
 
-                <button> Google </button>
+                <button @click.prevent="GoogleSingUp"> Google </button>
 
                 <p>ou</p>
 
-                <input v-model="email" type="email" placeholder="Email">
-                <input v-model="password" type="password" placeholder="Mot de passe">
+                <input v-model="firstNameSignUp" type="text" placeholder="Prénom">
+                <input v-model="lastNameSingUp" type="text" placeholder="Nom de famille">
+
+                <input v-model="emailSignUp" type="email" placeholder="Email">
+                <input v-model="passwordSignUp" type="password" placeholder="Mot de passe">
+
 
                 <div class="connection">
 
-                    <button @click="signUp">S'inscrire</button>
+                    <button @click.prevent="signUp">S'inscrire</button>
 
                 </div>
 
-                <p>Vous avez déjà un compte? <router-link class="nav-link" :to="{ name : 'signIn' }">Se connecter</router-link> </p>
+                <p>Vous avez déjà un compte? <router-link class="nav-link" :to="{ name : 'signIn' }">Se connecter
+                    </router-link>
+                </p>
 
 
             </div>
@@ -39,31 +45,74 @@
 </template>
 
 <script>
-    import { auth } from "../../firebase/init"
-    import { createUserWithEmailAndPassword } from "firebase/auth"
-    export default {
-        name: 'singIn',
+    import {
+        auth,
+        db
+    } from "../../firebase/init"
+    import {
+        createUserWithEmailAndPassword,
+        signInWithPopup,
+        GoogleAuthProvider
+    } from "firebase/auth"
+    import {
+        doc,
+        setDoc
+    } from "firebase/firestore"
 
-        data(){
-            return{
-                email:"",
-                password:""
+
+    export default {
+        name: 'singUn',
+
+        data() {
+            return {
+                emailSignUp: "",
+                passwordSignUp: "",
+                firstNameSignUp: "",
+                lastNameSingUp: ""
             }
         },
 
-        methods:{
+        methods: {
 
-            signUp(){
-                createUserWithEmailAndPassword(auth, this.email, this.password).then(
-                    function(user){
+            signUp() {
+                createUserWithEmailAndPassword(auth, this.emailSignUp, this.passwordSignUp)
+                    .then((data) => {
+                        let uid = data.user.uid
                         alert('Votre compte à été créer!')
-                        console.log(user)
-                    },
-                    function(err){
-                        alert('Oops.' + err.message)
-                    }
-                )
-            }
+                        console.log(data.user.uid)
+                        this.createUser(uid, this.emailSignUp, this.firstNameSignUp, this.lastNameSingUp)
+                    }).catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                    })
+            },
+
+            async createUser(uid, email, firstname, lastname) {
+                await setDoc(doc(db, "users", uid), {
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email
+                })
+            },
+
+            GoogleSingUp() {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider).then((result) => {
+
+                        let uid = result.user.uid
+                        let email = result.user.email
+                        let firstname = result.user.displayName.split
+                        let lastname = null
+
+                        console.log(uid, email)
+                        console.log(result)
+                    })
+                    .catch((err) => {
+                        console.log(
+                            err); // This will give you all the information needed to further debug any errors
+                    });
+            },
+
         }
 
     }
@@ -94,7 +143,7 @@
                 font-family: "como-bold";
                 font-size: 2rem;
             }
-            
+
         }
 
 
@@ -124,11 +173,11 @@
                 }
             }
 
-            p{
+            p {
                 text-align: center;
             }
 
-            .connection{
+            .connection {
                 padding-top: 20px;
 
                 display: flex;

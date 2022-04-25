@@ -13,37 +13,66 @@
             <div class="sing-in">
                 <h1>Se connecter</h1>
 
-                <button> Google </button>
+                <button @click.prevent="GoogleSingIn"> Google </button>
 
                 <p>ou</p>
 
-                <input type="email" placeholder="Email">
-                <input type="text" placeholder="Mot de passe">
+                <input v-model="emailSignIn" type="email" placeholder="Email">
+                <input v-model="passwordSignIn" type="password" placeholder="Mot de passe">
 
                 <div class="connection">
 
                     <p>Mot de passe oublié?</p>
-                    <button>Se connecter</button>
+                    <button @click.prevent="signIn">Se connecter</button>
 
                 </div>
 
-
                 <p>Vous n'avez pas de compte? <router-link class="nav-link" :to="{ name : 'signUp' }">Inscrivez-vous maintenant!</router-link> </p>
 
-
-
             </div>
-
-
         </div>
-
-
     </div>
 </template>
 
 <script>
+    import { auth } from "../../firebase/init"
+    import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
     export default {
-        name: 'singIn'
+        name: 'singIn',
+
+        data(){
+            return{
+                emailSignIn: "",
+                passwordSignIn: ""
+            }
+        },
+
+        methods:{
+            signIn(){
+                signInWithEmailAndPassword(auth, this.emailSignIn, this.passwordSignIn).then(
+                    function(user){
+                        alert('Vous êtes connecté!')
+                        console.log(user)
+                    },
+                    function(err){
+                        alert('Oops. '+ err.message)
+                    }
+                )
+            },
+            GoogleSingIn() {
+                const provider = new GoogleAuthProvider();
+                    signInWithPopup(auth, provider).then((result) => {
+                        let token = result.credential.accessToken;
+                        let user = result.user;
+                        console.log(token) // Token
+                        console.log(user) // User that was authenticated
+                    })
+                    .catch((err) => {
+                        console.log(
+                        err); // This will give you all the information needed to further debug any errors
+                    });
+            }
+        }
 
     }
 </script>
