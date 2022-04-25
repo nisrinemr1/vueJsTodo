@@ -27,6 +27,11 @@
 
                 </div>
 
+
+                <p>Vous n'avez pas de compte? <router-link class="nav-link" :to="{ name : 'signUp' }">Inscrivez-vous maintenant!</router-link> </p>
+
+
+
             </div>
 
 
@@ -68,7 +73,7 @@
                 font-family: "como-bold";
                 font-size: 2rem;
             }
-            
+
         }
 
 

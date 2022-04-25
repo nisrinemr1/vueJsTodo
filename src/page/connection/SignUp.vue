@@ -1,5 +1,5 @@
 <template>
-    <div id="sign-in-page">
+    <div id="sign-up-page">
 
         <header>
 
@@ -17,14 +17,17 @@
 
                 <p>ou</p>
 
-                <input type="email" placeholder="Email">
-                <input type="text" placeholder="Mot de passe">
+                <input v-model="email" type="email" placeholder="Email">
+                <input v-model="password" type="password" placeholder="Mot de passe">
 
                 <div class="connection">
 
-                    <button>S'inscrire</button>
+                    <button @click="signUp">S'inscrire</button>
 
                 </div>
+
+                <p>Vous avez déjà un compte? <router-link class="nav-link" :to="{ name : 'signIn' }">Se connecter</router-link> </p>
+
 
             </div>
 
@@ -36,14 +39,38 @@
 </template>
 
 <script>
+    import { auth } from "../../firebase/init"
+    import { createUserWithEmailAndPassword } from "firebase/auth"
     export default {
-        name: 'singIn'
+        name: 'singIn',
+
+        data(){
+            return{
+                email:"",
+                password:""
+            }
+        },
+
+        methods:{
+
+            signUp(){
+                createUserWithEmailAndPassword(auth, this.email, this.password).then(
+                    function(user){
+                        alert('Votre compte à été créer!')
+                        console.log(user)
+                    },
+                    function(err){
+                        alert('Oops.' + err.message)
+                    }
+                )
+            }
+        }
 
     }
 </script>
 
 <style lang="scss">
-    #sign-in-page {
+    #sign-up-page {
 
         width: 100%;
         height: 100vw;
