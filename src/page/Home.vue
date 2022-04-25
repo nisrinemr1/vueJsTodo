@@ -26,11 +26,9 @@
         h1 {
             padding-top: 70px;
             padding-bottom: 70px;
-            font-family: Avenir, Helvetica, Arial, sans-serif;
             text-align: center;
         }
         card {
-            font-family: Avenir, Helvetica, Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
