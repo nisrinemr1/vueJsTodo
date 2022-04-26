@@ -5,6 +5,7 @@
     <!-- ******** TITLE ******** -->
     <!-- ******** TITLE ******** -->
     <h1 class="title"> 할 수 있어! </h1>
+    <h2>{{userName}}</h2>
 
 
     <!-- ******** SEARCH TASK ******** -->
@@ -65,7 +66,6 @@
     <div class="test-link">
       <router-link class="nav-link" :to="{ name : 'home' }">Home</router-link>
       <router-link class="nav-link" :to="{ name : 'test' }">Test</router-link>
-      <router-link class="nav-link" :to="'/todo/'+ index">Task</router-link>
     </div>
 
 
@@ -74,6 +74,7 @@
 
 <script>
 import todoForm from './todo/todo-form.vue'
+import {onAuthStateChanged} from "firebase/auth"
 
   export default {
 
@@ -107,7 +108,9 @@ import todoForm from './todo/todo-form.vue'
         show_category: "",
 
         /* **** SEARCH INPUT OBJECT **** */
-        input: ""
+        input: "",
+
+        userName:""
       }
     },
 
@@ -148,7 +151,10 @@ import todoForm from './todo/todo-form.vue'
 
         return search
       }
-    }
+    },
+
+    
+
   }
 </script>
 

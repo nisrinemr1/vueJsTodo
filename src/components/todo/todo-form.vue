@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="form">
+        <div class="form"> 
 
             <!-- ******** HIDE FORM BTN ******** -->
             <button @click="closeForm" class="close-form-btn">X</button>
@@ -12,7 +12,7 @@
                 <label> Ajout de tâche:</label>
 
                 <!-- ******** INPUT TASK ******** -->
-                <input v-model="name" type="text">
+                <input placeholder="Nom de la tâche" v-model="name" type="text">
 
 
                 <!-- ******** SELECT CATEGORY ******** -->
@@ -25,6 +25,8 @@
 
                 </select>
 
+                <input type="text" placeholder="Description">
+
 
                 <!-- ******** ADD TASK BTN ******** -->
                 <button type="submit">Ajouter</button>
@@ -34,6 +36,7 @@
 </template>
 
 <script>
+
     export default {
         name: "todo-form",
         props: {
@@ -46,13 +49,17 @@
                 hide: "",
 
                 /* **** TODO OBJECT **** */
-                    name: "",
-                    category: ""
+                name: "",
+                category: "",
+
+                userName:""
+                
             }
         },
 
 
         methods: {
+
             /* **** CLOSE FORM METHODS ON CLICK **** */
             closeForm() {
                 /*  TO CHANGE THE SHOW_FORM FROM TRUE TO FALSE  */
@@ -74,6 +81,7 @@
                 this.todo.category = '' */
                 }
         }
+
     }
 </script>
 

@@ -85,7 +85,6 @@
 </template>
 
 
-
 <script>
 
     //******************** IMPORT AUTHENTIFICATIONS FROM INI.JS ********************
@@ -154,6 +153,7 @@
 
                         //TO SEND THE USER IN DATA
                         this.createUser(uid, this.emailSignUp, this.firstNameSignUp, this.lastNameSingUp)
+                        this.$router.push('/')
 
                     }).catch((error) => { //IF ERROR
                         const errorCode = error.code;
@@ -188,6 +188,7 @@
 
     }
 </script>
+
 
 <style lang="scss">
 

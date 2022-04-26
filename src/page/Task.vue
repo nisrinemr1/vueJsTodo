@@ -50,6 +50,10 @@ export default {
             category: this.$route.params.task.category,
             description: this.$route.params.task.description
         }
+    },
+
+    methods:{
+        
     }
 }
 </script>

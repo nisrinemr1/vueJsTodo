@@ -16,6 +16,8 @@
 
         </header>
 
+        <h1>{{userName}}</h1>
+
 
         <!-- *************************  SIGN IN CONTAINER  ************************* -->
         <!-- *************************  SIGN IN CONTAINER  ************************* -->
@@ -59,9 +61,9 @@
                 <!-- ******************** CONNECTION BTN ******************** -->
                 <div class="connection">
 
-                     <!-- *************** FORGOT PASSWORD *************** -->
-                     <!-- *************** FORGOT PASSWORD *************** -->
-                     <!-- *************** FORGOT PASSWORD *************** -->
+                    <!-- *************** FORGOT PASSWORD *************** -->
+                    <!-- *************** FORGOT PASSWORD *************** -->
+                    <!-- *************** FORGOT PASSWORD *************** -->
                     <p>Mot de passe oublié?</p>
 
 
@@ -75,61 +77,120 @@
                 <!-- ******************** DON'T HAVE AN ACCOUNT YET? ******************** -->
                 <!-- ******************** DON'T HAVE AN ACCOUNT YET? ******************** -->
                 <!-- ******************** DON'T HAVE AN ACCOUNT YET? ******************** -->
-                <p>Vous n'avez pas de compte? <router-link class="nav-link" :to="{ name : 'signUp' }">Inscrivez-vous maintenant!</router-link> </p>
+                <p>Vous n'avez pas de compte? <router-link class="nav-link" :to="{ name : 'signUp' }">Inscrivez-vous
+                        maintenant!</router-link>
+                </p>
 
             </div>
         </div>
     </div>
+
+
 </template>
 
 <script>
     //IMPORT AUTH AND FUNCTIONS FROM INIT.JS
-    import { auth } from "../../firebase/init"
-    import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+    import {
+        auth
+    } from "../../firebase/init"
+    import {
+        signInWithEmailAndPassword,
+        signInWithPopup,
+        GoogleAuthProvider,
+        getAuth,
+        onAuthStateChanged
+    } from "firebase/auth"
 
     export default {
         name: 'singIn',
 
-        data(){
-            return{
+        data() {
+            return {
                 emailSignIn: "",
-                passwordSignIn: ""
+                passwordSignIn: "",
+
+                userName:""
             }
         },
 
-        methods:{
+        methods: {
 
             //TO SIGN IN WITH THE CREATED AUTHENTIFICATION (EMAIL)
             //TO SIGN IN WITH THE CREATED AUTHENTIFICATION (EMAIL)
-            signIn(){
+            signIn() {
 
-                signInWithEmailAndPassword(auth, this.emailSignIn, this.passwordSignIn).then(
-                    function(user){
+                signInWithEmailAndPassword(auth, this.emailSignIn, this.passwordSignIn)
+
+                    .then((userCredential) => {
+
                         alert('Vous êtes connecté!')
+
+                        const user = userCredential.user
+
+                        this.$router.push('/home')
+
                         console.log(user)
-                    },
-                    function(err){
-                        alert('Oops. '+ err.message)
-                    }
-                )
+
+                    }).catch((error) => {
+
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+
+                    })
+
             },
 
 
             //TO SIGN IN WITH THE CREATED AUTHENTIFICATION (GMAIL)
             //TO SIGN IN WITH THE CREATED AUTHENTIFICATION (GMAIL)
             GoogleSingIn() {
+
                 const provider = new GoogleAuthProvider();
-                    signInWithPopup(auth, provider).then((result) => {
-                        let token = result.credential.accessToken;
-                        let user = result.user;
-                        console.log(token) // Token
-                        console.log(user) // User that was authenticated
-                    })
-                    .catch((err) => {
-                        console.log(
-                        err); // This will give you all the information needed to further debug any errors
+                const auth = getAuth();
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+                        // The signed-in user info.
+                        const user = result.user
+
+                        this.$router.push('/home')
+                        // ...
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error.email;
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                        // ...
                     });
             }
+        },
+
+        created() {
+
+            onAuthStateChanged(auth, (user) => {
+
+                if (user) {
+
+                   /*  const displayName = user.displayName */
+
+                    const displayName = user.displayName.split(' ')[0]
+
+                    this.userName = displayName
+
+                    this.$router.push('/home')
+
+                } else {
+
+                    this.$router.push('/')
+
+                }
+
+            })
         }
 
     }
@@ -190,17 +251,17 @@
                 flex-direction: column;
                 padding-top: 113px;
                 padding-bottom: 133px;
-                
+
                 //******************** TITLE ********************
                 //******************** TITLE ********************
                 h1 {
                     width: 100%;
                 }
             }
-            
+
             //*************** SIGN-IN BTN ***************
             //*************** SIGN-IN BTN ***************
-            .connection{
+            .connection {
                 padding-top: 20px;
 
                 display: flex;
@@ -209,7 +270,7 @@
 
             //******************** DON'T HAVE AN ACCOUNT YET? ********************
             //******************** DON'T HAVE AN ACCOUNT YET? ********************
-            p{
+            p {
                 text-align: center;
             }
         }
