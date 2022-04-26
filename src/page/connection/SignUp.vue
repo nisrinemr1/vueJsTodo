@@ -97,19 +97,21 @@
 
             GoogleSingUp() {
                 const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).then((result) => {
 
+                signInWithPopup(auth, provider).then((result) => {
                         let uid = result.user.uid
                         let email = result.user.email
-                        let firstname = result.user.displayName.split
-                        let lastname = null
+                        let firstname = result.user.displayName.split(' ')[0]
+                        let lastname = result.user.displayName.split(' ')[1]
 
-                        console.log(uid, email)
+                        this.createUser(uid, email, firstname, lastname)
+
+                        console.log(uid, email, firstname, lastname)
                         console.log(result)
                     })
-                    .catch((err) => {
-                        console.log(
-                            err); // This will give you all the information needed to further debug any errors
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message; // This will give you all the information needed to further debug any errors
                     });
             },
 
