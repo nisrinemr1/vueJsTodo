@@ -60,21 +60,11 @@
     <!-- <button class="show-form-btn" v-else @click="show_form = true">+</button> -->
 
 
-    <!-- ******** NAV LINKS ******** -->
-    <!-- ******** NAV LINKS ******** -->
-    <!-- ******** NAV LINKS ******** -->
-    <div class="test-link">
-      <router-link class="nav-link" :to="{ name : 'home' }">Home</router-link>
-      <router-link class="nav-link" :to="{ name : 'test' }">Test</router-link>
-    </div>
-
-
   </div>
 </template>
 
 <script>
 import todoForm from './todo/todo-form.vue'
-import {onAuthStateChanged} from "firebase/auth"
 
   export default {
 
@@ -161,6 +151,7 @@ import {onAuthStateChanged} from "firebase/auth"
 
 <style lang="scss">
   .content {
+    padding-top: 40px;
     height: 100vh;
     width: 100vw;
     padding-bottom: 400px;
@@ -199,7 +190,7 @@ import {onAuthStateChanged} from "firebase/auth"
     /* ****** CATEGORY ****** */
     /* ****** CATEGORY ****** */
     /* ****** CATEGORY ****** */
-    div {
+    div{
       width: 100%;
       display: flex;
       justify-content: space-around;
@@ -302,27 +293,6 @@ import {onAuthStateChanged} from "firebase/auth"
       }
       &.false{
         height: 0;
-      }
-    }
-
-     /* ****** NAV ROUT LINK  ****** */
-     /* ****** NAV ROUT LINK  ****** */
-     /* ****** NAV ROUT LINK  ****** */
-    .test-link{
-      position: fixed;
-      padding-bottom: 85px;
-      bottom: 0;
-      color: black;
-
-      .nav-link{
-        color: black;
-        text-decoration: none;
-        border-bottom: 3px solid transparent;
-        transition: border-bottom .2s ease-in-out;
-      }
-
-      .nav-link:hover{
-        border-bottom: 3px solid rgb(253, 197, 207);
       }
     }
   }

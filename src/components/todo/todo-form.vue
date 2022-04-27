@@ -24,9 +24,9 @@
                     <option value="pasimportant">Pas important</option>
 
                 </select>
-
-                <input type="text" placeholder="Description">
-
+                
+                <!-- ******** DESCRIPTION ******** -->
+                <input v-model="description" type="text" placeholder="Description">
 
                 <!-- ******** ADD TASK BTN ******** -->
                 <button type="submit">Ajouter</button>
@@ -51,8 +51,7 @@
                 /* **** TODO OBJECT **** */
                 name: "",
                 category: "",
-
-                userName:""
+                description: ""
                 
             }
         },
@@ -71,14 +70,15 @@
 
             add(){
 
-                if (!this.name && !this.category) {
+                if (!this.name && !this.category && !this.description) {
                     alert('Ajouter une tâche')
                 }
 
-                this.$emit('add', {name: this.name, category: this.category})
+                this.$emit('add', {name: this.name, category: this.category, description: this.description})
 
-                /* this.todo.name = ''
-                this.todo.category = '' */
+                this.todo.name = ''
+                this.todo.category = ''
+                this.todo.description = ''
                 }
         }
 

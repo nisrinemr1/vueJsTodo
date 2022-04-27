@@ -1,9 +1,29 @@
 <template>
     <div id="todo-page">
-        <div class="user">
-            <h2>{{userName}}</h2>
-            <button @click="deco">Déconnection</button>
-        </div>
+
+        <header class="header">
+            <!-- ******** NAV LINKS ******** -->
+            <!-- ******** NAV LINKS ******** -->
+            <!-- ******** NAV LINKS ******** -->
+            <div class="test-link">
+                <router-link class="nav-link" :to="{ name : 'home' }">
+                    <h2> Home </h2>
+                </router-link>
+                <router-link class="nav-link" :to="{ name : 'test' }">
+                    <h2> Test </h2>
+                </router-link>
+            </div>
+
+
+            <!-- ******** USER ******** -->
+            <div class="user">
+                <h2>{{userName}}</h2>
+                <button @click="deco">Déconnection</button>
+            </div>
+
+        </header>
+
+        <hr/>
         <todo />
     </div>
 </template>
@@ -14,7 +34,7 @@
         onAuthStateChanged,
         signOut
     } from "firebase/auth"
-    import {// pour initialiser
+    import { // pour initialiser
         auth // parametre le projet
     } from "./../firebase/init"
 
@@ -67,14 +87,52 @@
 <style lang="scss" scoped>
     #todo-page {
 
-        .user {
 
+        .header {
             display: flex;
-            flex-direction: column;
+            
 
-            align-items: flex-end;
+            /* ****** NAV ROUT LINK  ****** */
+            /* ****** NAV ROUT LINK  ****** */
+            /* ****** NAV ROUT LINK  ****** */
+            .test-link {
+                width: 50%;
 
-            margin-right: 40px;
+                padding-top: 20px;
+                
+                top: 0;
+
+                color: black;
+
+                display: flex;
+
+                justify-content: space-around;
+
+                .nav-link {
+                    color: black;
+
+                    text-decoration: none;
+
+                    border-bottom: 3px solid transparent;
+
+                    transition: border-bottom .2s ease-in-out;
+                }
+
+                .nav-link:hover {
+                    border-bottom: 3px solid rgb(253, 197, 207);
+                }
+            }
+
+            .user {
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+
+                align-items: flex-end;
+
+                margin-right: 40px;
+            }
+
         }
 
     }
