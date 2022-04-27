@@ -1,11 +1,10 @@
 <template>
     <div class="home-page">
-        <p>{{userName}}</p>
-        <h1>Welcome to the home page</h1>
+        <h1>Bienvenue dans la page d'accueil!</h1>
 
         <div class="home-card">
 
-            <h2>Go to the todo: </h2>
+            <h2>Aller sur la todo: </h2>
             <router-link :to="{ name:'todo' }">Todo</router-link>
 
         </div>
@@ -14,10 +13,6 @@
 </template>
 
 <script>
-    import { onAuthStateChanged } from "firebase/auth"
-    import {
-        auth
-    } from "./../firebase/init"
 
     export default {
         data(){
@@ -26,27 +21,6 @@
                 userName:""
 
             }
-        },
-
-        created() {
-
-            onAuthStateChanged(auth, (user) => {
-
-                if (user) {
-
-                   /*  const displayName = user.displayName */
-
-                    const displayName = user.displayName.split(' ')[0]
-
-                    this.userName = displayName
-
-                } else {
-
-                    this.$router.push('/')
-
-                }
-
-            })
         }
     }
 </script>

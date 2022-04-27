@@ -42,7 +42,7 @@
         <!-- ******** NAV LINKS ******** -->
         <!-- ******** NAV LINKS ******** -->
         <div class="test-link">
-            <router-link class="nav-link" :to="{ name : 'home' }">Home</router-link>
+            <router-link class="nav-link" :to="{ name : 'home' }">Accueil</router-link>
             <router-link class="nav-link" :to="{ name:'todo' }">Todo</router-link>
             <router-link class="nav-link" :to="{ name : 'test' }">Test</router-link>
         </div>

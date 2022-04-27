@@ -7,7 +7,7 @@
             <!-- ******** NAV LINKS ******** -->
             <div class="test-link">
                 <router-link class="nav-link" :to="{ name : 'home' }">
-                    <h2> Home </h2>
+                    <h2> Accueil </h2>
                 </router-link>
                 <router-link class="nav-link" :to="{ name : 'test' }">
                     <h2> Test </h2>
