@@ -36,6 +36,24 @@
 </template>
 
 <script>
+    //******************** IMPORT FIRESTORE ********************
+    //******************** IMPORT FIRESTORE ********************
+    import {
+        doc,
+        addDoc,
+        collection
+    } from "firebase/firestore"
+
+    //******************** IMPORT AUTHENTIFICATIONS FROM INI.JS ********************
+    //******************** IMPORT AUTHENTIFICATIONS FROM INI.JS ********************
+    import {
+        db,
+        auth
+    } from "../../firebase/init"
+
+     import {
+        onAuthStateChanged
+    } from "firebase/auth"
 
     export default {
         name: "todo-form",
@@ -51,7 +69,9 @@
                 /* **** TODO OBJECT **** */
                 name: "",
                 category: "",
-                description: ""
+                description: "",
+
+                uid: null
                 
             }
         },
@@ -68,20 +88,47 @@
                 this.$emit('update:close', !this.close)
             },
 
-            add(){
 
+             async add() { //Asyncrhone l'ajout d'une tâche qui sera envoyé à la db
+
+                // si le formulaire est vide, il envoie une alerte
                 if (!this.name && !this.category && !this.description) {
                     alert('Ajouter une tâche')
                 }
+                
+                //Ajout depuis la collection todos
+                await addDoc(collection(db, "todos"), {
 
-                this.$emit('add', {name: this.name, category: this.category, description: this.description})
+                    //les infos qui sont dans la data
+                    name: this.name,
+                    category: this.category,
+                    description: this.description,
+                    user_id: this.uid
 
-                this.todo.name = ''
-                this.todo.category = ''
-                this.todo.description = ''
+                }).then(()=>{ //si fini, tu vide le form
+
+                    this.name = ''
+                    this.category = ''
+                    this.description = ''
+
+                })
+
+            }
+
+        },
+
+        created() { //avant meme que l'html soit affiché on reg si il est enregistrer 
+
+            onAuthStateChanged(auth, (user) => {// regarder si il est co et on y recupère le uid
+
+                if (user) {
+
+                    this.uid = user.uid
+
                 }
-        }
 
+            })
+        }
     }
 </script>
 
