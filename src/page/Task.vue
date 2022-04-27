@@ -11,9 +11,10 @@
         <!-- ******** TASK INFO ******** -->
         <!-- ******** TASK INFO ******** -->
         <div class="taskInfo-card">
+
             <div>
                 <h3>Nom de la tâche:</h3>
-                <input type="text" :value="this.name">
+                <input v-model="name" type="text">
             </div>
 
             <div>
@@ -31,10 +32,13 @@
             </div>
 
             <div>
+
                 <h3>Description de la tâche:</h3>
-                <textarea class="textarea" :value="this.description" cols="60" rows="20"></textarea>
+                <textarea v-model="description" class="textarea"  cols="60" rows="20"></textarea>
                 
             </div>
+
+            <button @click="update">Modifier</button>
         </div>
 
 
@@ -51,16 +55,18 @@
 </template>
 
 <script>
+import { doc, updateDoc } from "./../firebase/init"
 export default {
-    /* mounted(){
-        console.log(this.$route.params)
-    }, */
 
     data(){
         return{
-            name: this.$route.params.task.name,
-            category: this.$route.params.task.category,
-            description: this.$route.params.task.description
+
+            id: this.$route.params.id,
+
+            name: null,
+            category: null,
+            description: null,
+
         }
     },
 

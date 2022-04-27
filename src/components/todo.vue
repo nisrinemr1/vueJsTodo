@@ -11,7 +11,7 @@
     <!-- ******** SEARCH TASK ******** -->
     <!-- ******** SEARCH TASK ******** -->
     <!-- ******** SEARCH TASK ******** -->
-    <input  v-model="input" class="searchBar" type="text" placeholder="Recherche d'une tâche">
+    <input v-model="input" class="searchBar" type="text" placeholder="Recherche d'une tâche">
 
 
     <!-- ******** CATEGORY BTN  ******** -->
@@ -28,7 +28,7 @@
     <!-- ******** LIST  ******** -->
     <!-- ******** LIST  ******** -->
     <!-- ******** LIST  ******** -->
-    <div v-for="(task, index) in filterList" :key="index">
+    <div v-for="(todo, index) in filterList" :key="index">
 
       <div class="task-items">
         <!-- ******** CHECKBOX AND INDEX OF TASK ******** -->
@@ -38,10 +38,11 @@
         </div>
 
         <!-- ******** TASK NAME + ROUTE TO THE TASK  ******** -->
-        <router-link class="task-link" :to="{ name:'TaskName', params:{task: task , slug:index+1} }">{{task.name}}</router-link>
+        <router-link class="task-link" :to="{ name:'TaskName', params:{id: todo.id , slug:todo.id} }">{{todo.data.name}}
+        </router-link>
 
         <!-- ******** TASK IMPORTANCE  ******** -->
-        <p>{{task.category}}</p>
+        <p>{{todo.data.category}}</p>
 
       </div>
     </div>
@@ -50,13 +51,13 @@
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
-    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" @add="test"/>
+    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" @add="test" @added="showTodo()" />
 
 
     <!-- ******** ADD TASK BTN ******** -->
     <!-- ******** ADD TASK BTN ******** -->
     <!-- ******** ADD TASK BTN ******** -->
-    <button class="show-form-btn " v-else @click="show_form = true">+</button> 
+    <button class="show-form-btn " v-else @click="show_form = true">+</button>
     <!-- <button class="show-form-btn" v-else @click="show_form = true">+</button> -->
 
 
@@ -64,35 +65,37 @@
 </template>
 
 <script>
-import todoForm from './todo/todo-form.vue'
+  import todoForm from './todo/todo-form.vue'
+  import {
+    collection,
+    query,
+    where,
+    onSnapshot,
+    querySnapshot
+  } from "firebase/firestore"
+
+  import {
+    db,
+    auth
+  } from "./../firebase/init"
+
+  import {
+    onAuthStateChanged
+  } from "firebase/auth"
 
   export default {
 
-    components: { todoForm },
+    components: {
+      todoForm
+    },
 
     name: 'todo',
-    
+
     data() {
       return {
         show_form: false,
 
-        /* **** LIST DATA **** */
-        list: [{
-            name: "Kimbap",
-            category: "urgent",
-            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
-          },
-          {
-            name: "Bibimbap",
-            category: "important",
-            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
-          },
-          {
-            name: "Ttoekbokki",
-            category: "pasimportant",
-            description : "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus ratione, et laudantium molestias, quia distinctio aliquam ea nisi quidem numquam possimus quod eius minima tempore praesentium aperiam adipisci odit nihil quas corporis! Dicta animi hic, delectus enim maxime reiciendis ipsam nihil, ad dignissimos placeat accusantium. Provident atque beatae quo sit."
-          }
-        ],
+        list: [],
 
         /* **** SHOW CATEGORY OBJECT **** */
         show_category: "",
@@ -100,7 +103,9 @@ import todoForm from './todo/todo-form.vue'
         /* **** SEARCH INPUT OBJECT **** */
         input: "",
 
-        userName:""
+        userName: "",
+
+        uid: null
       }
     },
 
@@ -117,25 +122,47 @@ import todoForm from './todo/todo-form.vue'
       },
 
       /*  TO SHOW ONLY THE SPECIFIC CATEGORY CLICKED BY THE USER  */
-      changeCategory(value){
+      changeCategory(value) {
         this.show_category = value
       },
 
-      test(newTodo){
+      test(newTodo) {
         this.list.push(newTodo)
+      },
+
+
+      showTodo() {
+
+        // Remettre la liste a zéro
+        this.list = []
+
+        //notre requet pour recup tous les todo du user_id
+        const request = query(collection(db, "todos"), where("user_id", "==", this.uid))
+
+
+        onSnapshot(request, (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.list.push({//création d'un objet pour avoir et la data et l'id de la data en question. 
+              id:doc.id,
+              data: doc.data()
+            })
+              
+          })
+        })
       }
+
     },
 
-    computed:{
-      
-      filterList(){
+    computed: {
+
+      filterList() {
         var search = this.list
 
-        if(this.input){
+        if (this.input) {
           search = search.filter(item => item.name.toUpperCase().includes(this.input.toUpperCase()))
         }
 
-        if(this.show_category){
+        if (this.show_category) {
           search = search.filter(item => item.category === this.show_category)
         }
 
@@ -143,7 +170,20 @@ import todoForm from './todo/todo-form.vue'
       }
     },
 
-    
+    created() { //avant meme que l'html soit affiché on reg si il est enregistrer 
+
+      onAuthStateChanged(auth, (user) => { // regarder si il est co et on y recupère le uid
+
+        if (user) {
+
+          this.uid = user.uid
+
+          this.showTodo() //bonne pratique
+
+        }
+
+      })
+    }
 
   }
 </script>
@@ -190,7 +230,7 @@ import todoForm from './todo/todo-form.vue'
     /* ****** CATEGORY ****** */
     /* ****** CATEGORY ****** */
     /* ****** CATEGORY ****** */
-    div{
+    div {
       width: 100%;
       display: flex;
       justify-content: space-around;
@@ -228,7 +268,7 @@ import todoForm from './todo/todo-form.vue'
       border-radius: 10px;
       padding: 5px;
 
-      .task-link{
+      .task-link {
         color: black;
         font-size: 1.3rem;
         font-weight: bolder;
@@ -285,13 +325,15 @@ import todoForm from './todo/todo-form.vue'
     /* ****** FORM ****** */
     /* ****** FORM ****** */
     /* ****** FORM ****** */
-    .form-appears{
+    .form-appears {
       transition: all .7s ease-in-out;
       z-index: 10;
-      &.true{
+
+      &.true {
         height: 600px;
       }
-      &.false{
+
+      &.false {
         height: 0;
       }
     }

@@ -66,17 +66,13 @@
             onAuthStateChanged(auth, (user) => {
 
                 if (user) {
-
+                    
                     /*  const displayName = user.displayName */
-
                     const displayName = user.displayName
-
                     this.userName = displayName
 
                 } else {
-
                     this.$router.push('/')
-
                 }
 
             })

@@ -4,8 +4,7 @@
 
         <div class="home-card">
 
-            <h2>Aller sur la todo: </h2>
-            <router-link :to="{ name:'todo' }">Todo</router-link>
+            <h2>Aller sur la  <router-link :to="{ name:'todo' }">todo: </router-link></h2>
 
         </div>
 

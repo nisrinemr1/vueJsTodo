@@ -39,7 +39,6 @@
     //******************** IMPORT FIRESTORE ********************
     //******************** IMPORT FIRESTORE ********************
     import {
-        doc,
         addDoc,
         collection
     } from "firebase/firestore"
@@ -111,7 +110,12 @@
                     this.category = ''
                     this.description = ''
 
+                    // Dire au parent que le todo a été ajouter dans la base de données
+                    this.$emit("added")
+
                 })
+
+                
 
             }
 
