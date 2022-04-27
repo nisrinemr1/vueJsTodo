@@ -175,14 +175,19 @@
             }
 
             select {
+
                 margin-right: 15px;
+
                 padding-top: 5px;
                 padding-bottom: 5px;
                 padding-left: 5px;
                 padding-right: 5px;
+
                 background-color: rgb(253, 197, 207);
+
                 border: none;
                 border-radius: 20px;
+                
                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             }
 

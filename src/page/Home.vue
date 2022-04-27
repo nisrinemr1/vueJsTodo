@@ -3,12 +3,12 @@
         <p>{{userName}}</p>
         <h1>Welcome to the home page</h1>
 
-        <card>
+        <div class="home-card">
 
             <h2>Go to the todo: </h2>
             <router-link :to="{ name:'todo' }">Todo</router-link>
 
-        </card>
+        </div>
 
     </div>
 </template>
@@ -63,7 +63,7 @@
             padding-bottom: 70px;
             text-align: center;
         }
-        card {
+        .home-card {
             display: flex;
             align-items: center;
             justify-content: center;

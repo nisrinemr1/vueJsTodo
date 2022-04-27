@@ -4,26 +4,38 @@
         <!-- ******** TITLE ******** -->
         <!-- ******** TITLE ******** -->
         <!-- ******** TITLE ******** -->
-        <h2>TASK INFORMATIONS</h2>
+        <h2>MODIFIER LA TÂCHE</h2>
 
         
         <!-- ******** TASK INFO ******** -->
         <!-- ******** TASK INFO ******** -->
         <!-- ******** TASK INFO ******** -->
-        <card>
+        <div class="taskInfo-card">
             <div>
-                <h3>Name of the task:</h3>
-                <p>{{name}}</p>
+                <h3>Nom de la tâche:</h3>
+                <input type="text" :value="this.name">
             </div>
+
             <div>
-                <h3>Importance of the task:</h3>
-                <p>{{ category }}</p>
+                <h3>Importance de la tâche:</h3>
+
+                <select v-model="category">
+
+                    <!-- ******** OPTION CATEGORY OF IMPORTANCE ******** -->
+                    <option value="urgent">Urgent</option>
+                    <option value="important">Important</option>
+                    <option value="pasimportant">Pas important</option>
+
+                </select>
+
             </div>
+
             <div>
-                <h3>Description of the task:</h3>
-                <p>{{ description }}</p>
+                <h3>Description de la tâche:</h3>
+                <textarea class="textarea" :value="this.description" cols="60" rows="20"></textarea>
+                
             </div>
-        </card>
+        </div>
 
 
         <!-- ******** NAV LINKS ******** -->
@@ -73,7 +85,7 @@ export default {
             padding-bottom: 30px;
         }
 
-        card{
+        .taskInfo-card{
             padding-top: 40px;
             width: 70%;
             height: 300px;
@@ -85,6 +97,22 @@ export default {
                 flex-direction: row;
                 align-items: baseline;
 
+                select {
+                    margin-right: 15px;
+
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                    padding-left: 5px;
+                    padding-right: 5px;
+
+                    background-color: rgb(253, 197, 207);
+
+                    border: none;
+                    border-radius: 20px;
+
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                }
+
                 h3{
                     width: 40%;
                     text-align: start;
@@ -93,6 +121,19 @@ export default {
                 p{
                     width: 60%;
                     text-align: start;
+                }
+
+                .textarea{
+                    border-radius: 10px;
+                    border: 1px solid #b5b5b5; 
+
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+
+                    padding-left: 10px;
+                    padding-right: 10px; 
+
+                    resize: none;
                 }
             }
         }
