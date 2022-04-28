@@ -4,7 +4,7 @@
     <!-- ******** TITLE ******** -->
     <!-- ******** TITLE ******** -->
     <!-- ******** TITLE ******** -->
-    <h1 class="title"> 할 수 있어! </h1>
+    <h1 class="title"> Todo liste</h1>
     <h2>{{userName}}</h2>
 
 
@@ -70,8 +70,7 @@
     collection,
     query,
     where,
-    onSnapshot,
-    querySnapshot
+    onSnapshot
   } from "firebase/firestore"
 
   import {
@@ -133,7 +132,7 @@
 
       showTodo() {
 
-        // Remettre la liste a zéro
+        // Remettre la liste a zéro pour ne pas ré afficher les précédents
         this.list = []
 
         //notre requet pour recup tous les todo du user_id
@@ -158,12 +157,18 @@
       filterList() {
         var search = this.list
 
+        /* console.log(this.list) pour voir ce qu'il affiche lorsqu'on ecrit dans l'input/ */
+
         if (this.input) {
-          search = search.filter(item => item.name.toUpperCase().includes(this.input.toUpperCase()))
+
+          console.log(this.input)
+          search = search.filter(item => item.data.name.toUpperCase().includes(this.input.toUpperCase()))
         }
 
         if (this.show_category) {
-          search = search.filter(item => item.category === this.show_category)
+
+          search = search.filter(item => item.data.category === this.show_category)//car quand on voit dans la console, on remarque les infos ne sont pas dans category, mais plutot dans data
+
         }
 
         return search
@@ -181,7 +186,6 @@
           this.showTodo() //bonne pratique
 
         }
-
       })
     }
 

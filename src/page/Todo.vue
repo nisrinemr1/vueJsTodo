@@ -5,7 +5,7 @@
             <!-- ******** NAV LINKS ******** -->
             <!-- ******** NAV LINKS ******** -->
             <!-- ******** NAV LINKS ******** -->
-            <div class="test-link">
+            <div class="nav-bar">
                 <router-link class="nav-link" :to="{ name : 'home' }">
                     <h2> Accueil </h2>
                 </router-link>
@@ -37,6 +37,8 @@
     import { // pour initialiser
         auth // parametre le projet
     } from "./../firebase/init"
+    import { collection, query, where } from "firebase/firestore";
+
 
     export default {
         components: {
@@ -71,7 +73,13 @@
                     const displayName = user.displayName
                     this.userName = displayName
 
-                } else {
+                }
+                else if(user){
+
+                    
+                    
+                }
+                else {
                     this.$router.push('/')
                 }
 
@@ -91,7 +99,7 @@
             /* ****** NAV ROUT LINK  ****** */
             /* ****** NAV ROUT LINK  ****** */
             /* ****** NAV ROUT LINK  ****** */
-            .test-link {
+            .nav-bar {
                 width: 50%;
 
                 padding-top: 20px;

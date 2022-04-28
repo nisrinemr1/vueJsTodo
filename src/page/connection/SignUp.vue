@@ -246,7 +246,6 @@
                 max-width: 513px;
                 display: flex;
                 flex-direction: column;
-                padding-top: 113px;
                 padding-bottom: 133px;
 
                 h1 {

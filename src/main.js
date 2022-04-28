@@ -7,7 +7,7 @@ import Home from './page/Home.vue'
 import Test from './page/Test.vue'
 import Todo from './page/Todo.vue'
 import NotFound from './page/NotFound.vue'
-import Task from './page/Task.vue'
+import Task from './page/Task-info.vue'
 
 
 
