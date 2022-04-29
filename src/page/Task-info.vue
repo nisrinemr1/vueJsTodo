@@ -156,6 +156,10 @@
                     description: this.description
                 });
 
+                alert("Votre tâche à bien été modifiée!")
+
+                this.$router.push("/todo")
+
             }
         },
 

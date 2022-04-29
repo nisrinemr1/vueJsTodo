@@ -33,7 +33,8 @@
       <div class="task-items">
         <!-- ******** CHECKBOX AND INDEX OF TASK ******** -->
         <div>
-          <input @click="remove(index)" type="checkbox">
+          <input @click="remove(todo.id)" type="checkbox">
+          <p>{{todo.id}}</p>
           <p>{{index+1}}</p>
         </div>
 
@@ -51,7 +52,8 @@
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
     <!-- ******** ADD TASK FORM ******** -->
-    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" @add="test" @added="showTodo()" />
+    <todoForm :class='"form-appears " + show_form' v-if="show_form" :close.sync="show_form" @add="test"
+      @added="showTodo()" />
 
 
     <!-- ******** ADD TASK BTN ******** -->
@@ -70,7 +72,9 @@
     collection,
     query,
     where,
-    onSnapshot
+    onSnapshot,
+    doc,
+    deleteDoc
   } from "firebase/firestore"
 
   import {
@@ -111,8 +115,26 @@
     methods: {
 
       /*  REMOVE TASK  */
-      remove(index) {
-        this.list.splice(index, 1)
+      async remove(id) {
+
+
+        await deleteDoc(doc(db, "todos", id)).then((id) => {
+          this.list = []
+
+          //notre requet pour recup tous les todo du user_id
+          const request = query(collection(db, "todos"), where("user_id", "==", this.uid))
+
+          onSnapshot(request, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              this.list
+            .push({ //création d'un objet pour avoir et la data et l'id de la data en question. 
+                id: doc.id,
+                data: doc.data()
+              })
+            })
+          })
+        })
+
       },
 
       /*  SEARCH TASK  */
@@ -138,14 +160,12 @@
         //notre requet pour recup tous les todo du user_id
         const request = query(collection(db, "todos"), where("user_id", "==", this.uid))
 
-
         onSnapshot(request, (querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            this.list.push({//création d'un objet pour avoir et la data et l'id de la data en question. 
-              id:doc.id,
+            this.list.push({ //création d'un objet pour avoir et la data et l'id de la data en question. 
+              id: doc.id,
               data: doc.data()
             })
-              
           })
         })
       }
@@ -167,7 +187,9 @@
 
         if (this.show_category) {
 
-          search = search.filter(item => item.data.category === this.show_category)//car quand on voit dans la console, on remarque les infos ne sont pas dans category, mais plutot dans data
+          search = search.filter(item => item.data.category === this
+              .show_category
+              ) //car quand on voit dans la console, on remarque les infos ne sont pas dans category, mais plutot dans data
 
         }
 
